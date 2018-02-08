@@ -4,6 +4,8 @@ interface
 
 uses Windows;
 
+{$MINENUMSIZE 4}
+
 const
   LIBFILE = 'librdkafka.dll';
   (*
@@ -1554,7 +1556,8 @@ function RD_KAFKA_OFFSET_TAIL(cnt: integer): integer; inline;
   *
   * Use `rd_kafka_errno2err()` to convert sytem \c errno to `rd_kafka_resp_err_t`
 *)
-
+function rd_kafka_consume_start(rkt: prd_kafka_topic_t; partition: Integer;
+			    offset: Int64): Integer; cdecl;
 (* *
   * @brief Same as rd_kafka_consume_start() but re-routes incoming messages to
   * the provided queue \p rkqu (which must have been previously allocated
@@ -2020,7 +2023,11 @@ const
     *
     * @sa Use rd_kafka_errno2err() to convert `errno` to rdkafka error code.
   *)
-
+function rd_kafka_produce(rkt: prd_kafka_topic_t; partition: Int32;
+		      msgflags: Integer;
+		      payload: Pointer; len: NativeInt;
+		      key: Pointer; keylen: NativeInt;
+		      msg_opaque: Pointer): Integer; cdecl;
   (* *
     * @brief Produce multiple messages.
     *
@@ -2726,6 +2733,7 @@ function rd_kafka_queue_get_consumer; external LIBFILE;
 procedure rd_kafka_queue_forward; external LIBFILE;
 function rd_kafka_queue_length; external LIBFILE;
 procedure rd_kafka_queue_io_event_enable; external LIBFILE;
+function rd_kafka_consume_start; external LIBFILE;
  function rd_kafka_consume_start_queue; external LIBFILE;
 
 function rd_kafka_consume_stop; external LIBFILE;
@@ -2762,6 +2770,7 @@ function rd_kafka_committed; external LIBFILE;
 
 function rd_kafka_position; external LIBFILE;
 
+function rd_kafka_produce; external LIBFILE;
 function rd_kafka_produce_batch; external LIBFILE;
 
 function rd_kafka_flush; external LIBFILE;
