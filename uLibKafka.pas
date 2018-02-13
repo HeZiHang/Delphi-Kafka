@@ -472,7 +472,8 @@ type
 
   rd_kafka_topic_partition_t = rd_kafka_topic_partition_s;
   prd_kafka_topic_partition_t = ^rd_kafka_topic_partition_t;
-
+  rd_kafka_topic_partition_array = array[0..0] of rd_kafka_topic_partition_t;
+  prd_kafka_topic_partition_array = ^rd_kafka_topic_partition_array;
   (* *
     * @brief Destroy a rd_kafka_topic_partition_t.
     * @remark This must not be called for elements in a topic partition list.
@@ -488,7 +489,7 @@ type
   rd_kafka_topic_partition_list_s = record
     cnt: integer; (* *< Current number of elements *)
     size: integer; (* *< Current allocated size *)
-    elems: prd_kafka_topic_partition_t; (* *< Element array[] *)
+    elems: prd_kafka_topic_partition_array; (* *< Element array[] *)
   end;
 
   rd_kafka_topic_partition_list_t = rd_kafka_topic_partition_list_s;
@@ -1310,7 +1311,7 @@ procedure rd_kafka_topic_opaque(rkt: prd_kafka_topic_t); cdecl;
   * that should be partitioned using the configured or default partitioner.
 *)
 const
-  RD_KAFKA_PARTITION_UA = UInt32(-1);
+  RD_KAFKA_PARTITION_UA = -1;
 
   (* *
     * @brief Polls the provided kafka handle for events.
@@ -2088,7 +2089,8 @@ type
   rd_kafka_metadata_broker_t = rd_kafka_metadata_broker;
   prd_kafka_metadata_broker_t = ^rd_kafka_metadata_broker_t;
   prd_kafka_metadata_broker = ^rd_kafka_metadata_broker;
-
+  rd_kafka_metadata_broker_array = array[0..0] of rd_kafka_metadata_broker;
+  prd_kafka_metadata_broker_array = ^rd_kafka_metadata_broker_array;
   (* *
     * @brief Partition information
   *)
@@ -2105,30 +2107,32 @@ type
   rd_kafka_metadata_partition_t = rd_kafka_metadata_partition;
   prd_kafka_metadata_partition_t = ^rd_kafka_metadata_partition_t;
   prd_kafka_metadata_partition = ^rd_kafka_metadata_partition;
-
+  rd_kafka_metadata_partition_array = array[0..0] of rd_kafka_metadata_partition;
+  prd_kafka_metadata_partition_array = ^rd_kafka_metadata_partition_array;
   (* *
     * @brief Topic information
   *)
   rd_kafka_metadata_topic = record
     topic: PAnsiChar; (* *< Topic name *)
     partition_cnt: integer; (* *< Number of partitions in \p partitions *)
-    partitions: prd_kafka_metadata_partition; (* *< Partitions *)
+    partitions: prd_kafka_metadata_partition_array; (* *< Partitions *)
     err: rd_kafka_resp_err_t; (* *< Topic error reported by broker *)
   end;
 
   rd_kafka_metadata_topic_t = rd_kafka_metadata_topic;
   prd_kafka_metadata_topic_t = ^rd_kafka_metadata_topic_t;
   prd_kafka_metadata_topic = ^rd_kafka_metadata_topic;
-
+  rd_kafka_metadata_topic_array = array[0..0] of rd_kafka_metadata_topic;
+  prd_kafka_metadata_topic_array = ^rd_kafka_metadata_topic_array;
   (* *
     * @brief Metadata container
   *)
   rd_kafka_metadata_t = record
     broker_cnt: integer; (* *< Number of brokers in \p brokers *)
-    brokers: prd_kafka_metadata_broker; (* *< Brokers *)
+    brokers: prd_kafka_metadata_broker_array; (* *< Brokers *)
 
     topic_cnt: integer; (* *< Number of topics in \p topics *)
-    topics: prd_kafka_metadata_topic; (* *< Topics *)
+    topics: prd_kafka_metadata_topic_array; (* *< Topics *)
 
     orig_broker_id: Int32; (* *< Broker originating this metadata *)
     orig_broker_name: PAnsiChar; (* *< Name of originating broker *)
@@ -2192,6 +2196,8 @@ type
   end;
 
   prd_kafka_group_member_info = ^rd_kafka_group_member_info;
+  rd_kafka_group_member_info_array = array[0..0] of rd_kafka_group_member_info;
+  prd_kafka_group_member_info_array = ^rd_kafka_group_member_info_array;
   (* *
     * @brief Group information
   *)
@@ -2203,11 +2209,13 @@ type
     state: PAnsiChar; (* *< Group state *)
     protocol_type: PAnsiChar; (* *< Group protocol type *)
     protocol: PAnsiChar; (* *< Group protocol *)
-    members: prd_kafka_group_member_info; (* *< Group members *)
+    members: prd_kafka_group_member_info_array; (* *< Group members *)
     member_cnt: integer; (* *< Group member count *)
   end;
 
   prd_kafka_group_info = ^rd_kafka_group_info;
+  rd_kafka_group_info_array = array[0..0] of rd_kafka_group_info;
+  prd_kafka_group_info_array = ^rd_kafka_group_info_array;
   (* *
     * @brief List of groups
     *
@@ -2215,7 +2223,7 @@ type
   *)
 
   rd_kafka_group_list = record
-    groups: prd_kafka_group_info; (* *< Groups *)
+    groups: prd_kafka_group_info_array; (* *< Groups *)
     group_cnt: integer; (* *< Group count *)
   end;
 
